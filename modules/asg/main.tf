@@ -43,6 +43,14 @@ resource "aws_autoscaling_group" "this" {
     version = "$Latest"
   }
 
+  instance_refresh {
+    strategy = "Rolling"
+
+    preferences {
+      min_healthy_percentage = 50
+    }
+  }
+
   dynamic "tag" {
     for_each = merge(var.tags, { Name = var.name })
 

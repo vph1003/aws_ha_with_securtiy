@@ -214,7 +214,8 @@ module "tomcat_asg" {
       <main>
         <h1>Application service is running</h1>
         <p>이 페이지는 CloudFront VPC Origin과 private ALB를 통해 Tomcat에서 제공됩니다.</p>
-        <p><a href="/health.jsp">서비스 상태 확인</a></p>
+        <p><a href="/app/health.jsp">서비스 상태 확인</a></p>
+        <p><a href="/">메인 페이지로 돌아가기</a></p>
       </main>
     </body>
     </html>
@@ -289,7 +290,8 @@ module "tomcat_asg" {
       <span class="status">HEALTHY</span>
       <h1>Service is available</h1>
       <p>애플리케이션 서버와 데이터 계층이 정상적으로 응답했습니다.</p>
-      <p><a href="/">애플리케이션으로 돌아가기</a></p>
+      <p><a href="/app/">애플리케이션으로 돌아가기</a></p>
+      <p><a href="/">메인 페이지로 돌아가기</a></p>
     </main>
     <%
           }
@@ -301,7 +303,8 @@ module "tomcat_asg" {
       <span class="status fail">UNAVAILABLE</span>
       <h1>Service is temporarily unavailable</h1>
       <p>현재 서비스 상태 확인에 실패했습니다. 잠시 후 다시 시도해 주세요.</p>
-      <p><a href="/">애플리케이션으로 돌아가기</a></p>
+      <p><a href="/app/">애플리케이션으로 돌아가기</a></p>
+      <p><a href="/">메인 페이지로 돌아가기</a></p>
     </main>
     <%
       }
