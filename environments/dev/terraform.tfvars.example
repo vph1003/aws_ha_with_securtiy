@@ -1,0 +1,37 @@
+aws_region                    = "ap-northeast-2"
+project_name                  = "project1"
+environment                   = "dev"
+vpc_cidr                      = "10.0.0.0/16"
+public_subnet_cidr            = "10.0.1.0/24"
+public_secondary_subnet_cidr  = "10.0.2.0/24"
+private_subnet_cidr           = "10.0.100.0/24"
+private_secondary_subnet_cidr = "10.0.101.0/24"
+db_subnet_cidr                = "10.0.200.0/24"
+db_secondary_subnet_cidr      = "10.0.201.0/24"
+availability_zone             = "ap-northeast-2a"
+secondary_availability_zone   = "ap-northeast-2c"
+enable_nat_gateway            = true
+
+app_s3_bucket_name   = null
+app_s3_force_destroy = true
+
+root_domain_name        = "example.com"
+cloudfront_domain_name  = "cdn.example.com"
+origin_domain_name      = "origin.example.com"
+certificate_domain_name = "*.example.com"
+
+db_name             = "appdb"
+db_master_username  = "dbadmin"
+db_instance_class   = "db.t3.medium"
+db_instance_count   = 2
+instance_type       = "t3.micro"
+tomcat_version      = "10.1.34"
+postgres_jdbc_version = "42.7.4"
+
+# Change these before terraform apply.
+key_name   = null
+my_ip_cidr = "203.0.113.10/32"
+
+tags = {
+  Owner = "terraform"
+}

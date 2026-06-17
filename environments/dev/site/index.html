@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CloudFront, private S3, private ALB로 구성한 AWS 3-tier 예제">
+    <title>Project1 AWS Architecture</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">PROJECT1</a>
+      <nav aria-label="주요 메뉴">
+        <a href="#architecture">Architecture</a>
+        <a href="/app/">Application</a>
+        <a href="/app/health.jsp">Health</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">AWS PRIVATE ORIGIN ARCHITECTURE</p>
+        <h1>정적 콘텐츠와 애플리케이션을 하나의 CloudFront로 제공합니다.</h1>
+        <p class="summary">
+          이 화면은 private S3에서 제공되며, 동적 요청은 CloudFront VPC Origin을 통해
+          private ALB와 Tomcat으로 전달됩니다.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="/app/">Tomcat 열기</a>
+          <a class="button secondary" href="/app/health.jsp">서비스 상태 확인</a>
+        </div>
+      </section>
+
+      <section id="architecture" class="architecture" aria-labelledby="architecture-title">
+        <div class="section-heading">
+          <p class="eyebrow">REQUEST FLOW</p>
+          <h2 id="architecture-title">경로에 따라 origin을 분리합니다.</h2>
+        </div>
+
+        <div class="flow">
+          <article>
+            <span class="step">01</span>
+            <h3>CloudFront</h3>
+            <p>TLS 종료, WAF 적용, 캐시 동작과 origin 라우팅을 담당합니다.</p>
+          </article>
+          <article>
+            <span class="step">02</span>
+            <h3>Private S3</h3>
+            <p><code>/</code> 요청의 HTML과 CSS를 OAC를 통해 비공개로 제공합니다.</p>
+          </article>
+          <article>
+            <span class="step">03</span>
+            <h3>Private ALB</h3>
+            <p><code>/app/*</code> 요청을 VPC Origin으로 받아 Tomcat에 전달합니다.</p>
+          </article>
+          <article>
+            <span class="step">04</span>
+            <h3>Aurora</h3>
+            <p>Tomcat 애플리케이션의 데이터 계층을 private DB subnet에서 제공합니다.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="tomcat-link" aria-labelledby="tomcat-title">
+        <div>
+          <p class="eyebrow">PRIVATE ALB TEST</p>
+          <h2 id="tomcat-title">S3 정적 페이지에서 Tomcat 애플리케이션으로 연결합니다.</h2>
+          <p>
+            아래 링크는 같은 CloudFront 도메인을 사용하지만 <code>/app/*</code> 경로이므로
+            S3가 아니라 VPC Origin을 통해 private ALB와 Tomcat으로 전달됩니다.
+          </p>
+        </div>
+
+        <div class="route-panel">
+          <div class="route-line">
+            <span>현재 페이지</span>
+            <strong>/</strong>
+            <small>CloudFront → Private S3</small>
+          </div>
+          <div class="route-line active">
+            <span>Tomcat 앱</span>
+            <strong>/app/</strong>
+            <small>CloudFront → VPC Origin → Private ALB → Tomcat</small>
+          </div>
+          <div class="route-line active">
+            <span>상태 확인</span>
+            <strong>/app/health.jsp</strong>
+            <small>Tomcat 애플리케이션 내부 상태 확인</small>
+          </div>
+          <div class="actions compact">
+            <a class="button primary" href="/app/">Tomcat 앱 접속</a>
+            <a class="button secondary" href="/app/health.jsp">서비스 상태 확인</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Terraform managed infrastructure · ap-northeast-2</p>
+    </footer>
+  </body>
+</html>
