@@ -4,9 +4,14 @@
 
 # Terraform local state and cache
 **/.terraform/
+**/.terraform.d/
 *.tfstate
 *.tfstate.*
 *.tfplan
+tfplan
+plan.out
+.terraform.tfstate.lock.info
+state-backup*/
 crash.log
 crash.*.log
 override.tf
@@ -30,6 +35,9 @@ backend-*.hcl
 .aws/
 credentials
 config
+kubeconfig
+kubeconfig.*
+.kube/
 *.pem
 *.key
 *.pub
@@ -50,3 +58,11 @@ temp/
 *.tar
 *.tar.gz
 *.tgz
+*.bkp
+
+# Node/Python build caches if sample apps grow later
+node_modules/
+dist/
+build/
+__pycache__/
+*.pyc
